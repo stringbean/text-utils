@@ -20,14 +20,19 @@ import java.io.PrintStream
 
 import scala.collection.mutable
 
-class TableFormatter(val headers: Option[Seq[String]]) {
+class TableFormatter(
+    val headers: Option[Seq[String]],
+    val separator: String = "  ",
+    val prefix: String = "",
+    val suffix: String = "") {
+
   private val contents: mutable.Buffer[Seq[String]] = mutable.Buffer()
 
   def rows: Seq[Seq[String]] = this.contents.toSeq
 
-  def +=(columns: String*): TableFormatter = addRow(columns: _*)
+  def addRow(columns: String*): TableFormatter = +=(columns)
 
-  def addRow(columns: String*): TableFormatter = {
+  def +=(columns: Seq[String]): TableFormatter = {
     // TODO validate column count?
     contents += columns
     this
@@ -44,21 +49,26 @@ class TableFormatter(val headers: Option[Seq[String]]) {
     } else {
       val sb = new mutable.StringBuilder()
 
-      val separator = if (headers.isEmpty) "  " else " | "
       val widths = columnWidths
 
       def appendRow(row: Seq[String]): Unit = {
         row.zipWithIndex foreach {
           case (text, i) =>
-            if (i > 0) {
+            if (i == 0) {
+              sb ++= prefix
+            } else {
               sb ++= separator
             }
 
-            if (i >= widths.length - 1) {
+            if (suffix.isEmpty && i >= widths.length - 1) {
               sb.append(text)
             } else {
               val colWidth = widths(i)
               sb.append(text.padTo(colWidth, ' '))
+            }
+
+            if (i >= widths.length - 1) {
+              sb ++= suffix
             }
 
         }
@@ -69,7 +79,10 @@ class TableFormatter(val headers: Option[Seq[String]]) {
         appendRow(header)
 
         // add separator
-        (0 until columnWidths.map(_ + 2).sum).foreach(_ => sb += '-')
+        val separatorLength = columnWidths
+          .map(w => w + separator.length)
+          .sum + prefix.length + suffix.length - separator.length
+        (0 until separatorLength).foreach(_ => sb += '-')
         sb += '\n'
       }
 
@@ -101,7 +114,7 @@ object TableFormatter {
     if (headers.isEmpty) {
       new TableFormatter(None)
     } else {
-      new TableFormatter(Some(headers))
+      new TableFormatter(Some(headers), " | ", "| ", " |")
     }
   }
 }

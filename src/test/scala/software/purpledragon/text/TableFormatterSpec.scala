@@ -44,7 +44,7 @@ class TableFormatterSpec extends AnyFlatSpec with Matchers {
 
   "+=" should "add a row to a table" in {
     val formatter = TableFormatter()
-    val result = formatter += ("col-1", "col-2")
+    val result = formatter += Seq("col-1", "col-2")
 
     result shouldBe formatter
     result.rows shouldBe Seq(Seq("col-1", "col-2"))
@@ -79,9 +79,9 @@ class TableFormatterSpec extends AnyFlatSpec with Matchers {
     val formatter = TableFormatter("header-1", "header-2", "header-3")
 
     formatter.toString shouldBe
-      """header-1 | header-2 | header-3
-        |------------------------------
-        |""".stripMargin
+      """|| header-1 | header-2 | header-3 |
+         |----------------------------------
+         |""".stripMargin
   }
 
   it should "output table with header and single row" in {
@@ -89,10 +89,10 @@ class TableFormatterSpec extends AnyFlatSpec with Matchers {
       .addRow("col-1", "col-2", "col-3")
 
     formatter.toString shouldBe
-      """header-1 | header-2 | header-3
-        |------------------------------
-        |col-1    | col-2    | col-3
-        |""".stripMargin
+      """|| header-1 | header-2 | header-3 |
+         |----------------------------------
+         || col-1    | col-2    | col-3    |
+         |""".stripMargin
   }
 
   it should "output table with header and multiple rows" in {
@@ -101,11 +101,11 @@ class TableFormatterSpec extends AnyFlatSpec with Matchers {
       .addRow("row-2-col-1", "row-2-col-2", "row-2-col-3")
 
     formatter.toString shouldBe
-      """header-1    | header-2    | header-3
-        |---------------------------------------
-        |col-1       | col-2       | col-3
-        |row-2-col-1 | row-2-col-2 | row-2-col-3
-        |""".stripMargin
+      """|| header-1    | header-2    | header-3    |
+         |-------------------------------------------
+         || col-1       | col-2       | col-3       |
+         || row-2-col-1 | row-2-col-2 | row-2-col-3 |
+         |""".stripMargin
   }
 
   "print(out)" should "print a table to a stream" in {
@@ -119,11 +119,11 @@ class TableFormatterSpec extends AnyFlatSpec with Matchers {
     formatter.print(out)
 
     boas.toString(StandardCharsets.UTF_8) shouldBe
-      """header-1    | header-2    | header-3
-        |---------------------------------------
-        |col-1       | col-2       | col-3
-        |row-2-col-1 | row-2-col-2 | row-2-col-3
-        |""".stripMargin
+      """|| header-1    | header-2    | header-3    |
+         |-------------------------------------------
+         || col-1       | col-2       | col-3       |
+         || row-2-col-1 | row-2-col-2 | row-2-col-3 |
+         |""".stripMargin
   }
 
   "print()" should "print a table to stdout" in {
@@ -139,11 +139,11 @@ class TableFormatterSpec extends AnyFlatSpec with Matchers {
     }
 
     boas.toString(StandardCharsets.UTF_8) shouldBe
-      """header-1    | header-2    | header-3
-        |---------------------------------------
-        |col-1       | col-2       | col-3
-        |row-2-col-1 | row-2-col-2 | row-2-col-3
-        |""".stripMargin
+      """|| header-1    | header-2    | header-3    |
+         |-------------------------------------------
+         || col-1       | col-2       | col-3       |
+         || row-2-col-1 | row-2-col-2 | row-2-col-3 |
+         |""".stripMargin
 
   }
 }
