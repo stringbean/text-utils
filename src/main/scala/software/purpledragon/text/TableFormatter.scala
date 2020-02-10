@@ -24,9 +24,27 @@ class TableFormatter(
     val headers: Option[Seq[String]],
     val separator: String = "  ",
     val prefix: String = "",
-    val suffix: String = "") {
+    val suffix: String = "",
+    val stripTrailingNewline: Boolean = false) {
 
   private val contents: mutable.Buffer[Seq[String]] = mutable.Buffer()
+
+  // TODO handle contents
+  def withSeparator(separator: String): TableFormatter = {
+    new TableFormatter(headers, separator, prefix, suffix, stripTrailingNewline)
+  }
+
+  def withPrefix(prefix: String): TableFormatter = {
+    new TableFormatter(headers, separator, prefix, suffix, stripTrailingNewline)
+  }
+
+  def withSuffix(suffix: String): TableFormatter = {
+    new TableFormatter(headers, separator, prefix, suffix, stripTrailingNewline)
+  }
+
+  def withStripTrailingNewline: TableFormatter = {
+    new TableFormatter(headers, separator, prefix, suffix, true)
+  }
 
   def rows: Seq[Seq[String]] = this.contents.toSeq
 
@@ -91,7 +109,13 @@ class TableFormatter(
       sb.toString()
     }
 
-    res
+    if (stripTrailingNewline) {
+      res
+        .replaceAll("\n$", "")
+        .replaceAll("(?m) *$", "")
+    } else {
+      res.replaceAll("(?m) *$", "")
+    }
   }
 
   private def columnWidths: Seq[Int] = {

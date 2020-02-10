@@ -75,6 +75,17 @@ class TableFormatterSpec extends AnyFlatSpec with Matchers {
         |""".stripMargin
   }
 
+  it should "omit trailing whitespace on rows" in {
+    val formatter = TableFormatter()
+      .addRow("col-1", "col-2", "")
+      .addRow("row-2-col-1", "row-2-col-2", "row-2-col-3")
+
+    formatter.toString shouldBe
+      """col-1        col-2
+        |row-2-col-1  row-2-col-2  row-2-col-3
+        |""".stripMargin
+  }
+
   it should "output table with header and no rows" in {
     val formatter = TableFormatter("header-1", "header-2", "header-3")
 
@@ -106,6 +117,24 @@ class TableFormatterSpec extends AnyFlatSpec with Matchers {
          || col-1       | col-2       | col-3       |
          || row-2-col-1 | row-2-col-2 | row-2-col-3 |
          |""".stripMargin
+  }
+
+  it should "strip trailing newline for empty table" in {
+    val formatter= TableFormatter().withStripTrailingNewline
+    formatter.toString shouldBe ""
+  }
+
+  it should "strip trailing newline for non-empty table" in {
+    val formatter = TableFormatter("header-1", "header-2", "header-3")
+      .withStripTrailingNewline
+      .addRow("col-1", "col-2", "col-3")
+      .addRow("row-2-col-1", "row-2-col-2", "row-2-col-3")
+
+    formatter.toString shouldBe
+      """|| header-1    | header-2    | header-3    |
+         |-------------------------------------------
+         || col-1       | col-2       | col-3       |
+         || row-2-col-1 | row-2-col-2 | row-2-col-3 |""".stripMargin
   }
 
   "print(out)" should "print a table to a stream" in {
