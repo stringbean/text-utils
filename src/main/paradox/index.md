@@ -1,4 +1,4 @@
-# text-utils
+# Simple Text Utils for Scala
 
 Simple Scala library for outputting formatted text.
 
