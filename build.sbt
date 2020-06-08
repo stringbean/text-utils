@@ -1,11 +1,11 @@
 name := "text-utils"
 organization := "software.purpledragon"
 
-scalaVersion := "2.13.1"
-crossScalaVersions := Seq("2.11.12", "2.12.10", scalaVersion.value)
+scalaVersion := "2.13.2"
+crossScalaVersions := Seq("2.11.12", "2.12.11", scalaVersion.value)
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.1.0" % Test
+  "org.scalatest" %% "scalatest" % "3.1.2" % Test
 )
 
 organizationName := "Michael Stringer"
