@@ -47,16 +47,14 @@ class SortedTableFormatter(
   }
 
   override def rows: Seq[Seq[String]] = {
-    if (contents.isEmpty) {
-      Nil
-    } else {
-      if (sortColumnIndex >= contents.head.size) {
+    contents.toList match {
+      case first :: _ if sortColumnIndex >= first.size =>
         throw new IllegalArgumentException(
-          s"Sort index ($sortColumnIndex) is greater than last column (${contents.head.size - 1}"
+          s"Sort index ($sortColumnIndex) is greater than last column (${first.size - 1}"
         )
-      }
 
-      contents.sortBy(row => row(sortColumnIndex)).toSeq
+      case r =>
+        r.sortBy(row => row(sortColumnIndex))
     }
   }
 }

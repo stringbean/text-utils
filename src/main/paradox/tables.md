@@ -33,7 +33,6 @@ Bananas  4
 
 #### With Headers
 
-
 ```scala
 TableFormatter("Produce", "Remaining")
   .addRow("Apples", "25")
