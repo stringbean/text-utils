@@ -6,6 +6,7 @@ addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.13")
 // code style/testing
 addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.6.0")
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.0")
 
 // documentation
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.3")
