@@ -24,5 +24,5 @@ jobs:
     # run coverage only on 2.13
     - stage: Coverage
       jdk: openjdk11
-      script: sbt ++2.13.4 coverage test coverageReport && bash <(curl -s https://codecov.io/bash)
+      script: sbt ++2.13.2 coverage test coverageReport && bash <(curl -s https://codecov.io/bash)
 
