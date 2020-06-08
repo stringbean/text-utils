@@ -1,5 +1,6 @@
 language: scala
 sudo: false
+dist: bionic
 
 jdk:
   - openjdk8
