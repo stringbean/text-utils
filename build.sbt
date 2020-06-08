@@ -16,7 +16,6 @@ developers := List(
   Developer("stringbean", "Michael Stringer", "@the_stringbean", url("https://github.com/stringbean"))
 )
 
-organizationName := "Purple Dragon Software"
 organizationHomepage := Some(url("https://purpledragon.software"))
 homepage := Some(url("https://github.com/stringbean/text-utils"))
 scmInfo := Some(

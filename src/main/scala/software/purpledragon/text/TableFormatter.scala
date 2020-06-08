@@ -27,7 +27,7 @@ class TableFormatter(
     val suffix: String = "",
     val stripTrailingNewline: Boolean = false) {
 
-  private val contents: mutable.Buffer[Seq[String]] = mutable.Buffer()
+  protected val contents: mutable.Buffer[Seq[String]] = mutable.Buffer()
 
   // TODO handle contents
   def withSeparator(separator: String): TableFormatter = {
