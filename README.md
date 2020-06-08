@@ -1,0 +1,2 @@
+# text-utils
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7bd85245f3254e84a69e56a5bf0c59be)](https://app.codacy.com/manual/stringbean/text-utils?utm_source=github.com&utm_medium=referral&utm_content=stringbean/text-utils&utm_campaign=Badge_Grade_Dashboard)
