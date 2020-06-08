@@ -20,6 +20,51 @@ import java.io.PrintStream
 
 import scala.collection.mutable
 
+/**
+ * Simple textual formatter for tabular data. This is intended to be used in text based user interfaces such as CLIs.
+ *
+ * == Example without headers ==
+ * {{{
+ * TableFormatter()
+ *   .addRow("Apples", "25")
+ *   .addRow("Pears", "10")
+ *   .addRow("Bananas", "4")
+ *   .print()
+ * }}}
+ *
+ * Would output:
+ *
+ * {{{
+ * Apples   25
+ * Pears    10
+ * Bananas  4
+ * }}}
+ *
+ * == Example with headers ==
+ * {{{
+ * TableFormatter("Produce", "Remaining")
+ *   .addRow("Apples", "25")
+ *   .addRow("Pears", "10")
+ *   .addRow("Bananas", "4")
+ *   .print()
+ * }}}
+ *
+ * Would output:
+ * {{{
+ * | Produce | Remaining |
+ * -----------------------
+ * | Apples  | 25        |
+ * | Pears   | 10        |
+ * | Bananas | 4         |
+ * }}}
+ *
+ *
+ * @param headers optional column headers.
+ * @param separator separator to use between columns.
+ * @param prefix prefix to use before first column.
+ * @param suffix suffix to use after last column.
+ * @param stripTrailingNewline if `true` then no newline will be output after the last row.
+ */
 class TableFormatter(
     val headers: Option[Seq[String]],
     val separator: String = "  ",
@@ -27,40 +72,86 @@ class TableFormatter(
     val suffix: String = "",
     val stripTrailingNewline: Boolean = false) {
 
-  private val contents: mutable.Buffer[Seq[String]] = mutable.Buffer()
+  protected val contents: mutable.Buffer[Seq[String]] = mutable.Buffer()
 
-  // TODO handle contents
+  /**
+   * Creates a new `TableFormatter`, copying the settings from this and with the supplied separator.
+   *
+   * The rows in this table will ''not'' be copied to the new table.
+   *
+   * @param separator separator to use between columns.
+   * @return An empty table with the updated settings.
+   */
   def withSeparator(separator: String): TableFormatter = {
     new TableFormatter(headers, separator, prefix, suffix, stripTrailingNewline)
   }
 
+  /**
+   * Creates a new `TableFormatter`, copying the settings from this and with the supplied prefix.
+   *
+   * The rows in this table will ''not'' be copied to the new table.
+   *
+   * @param prefix prefix to use before first column.
+   * @return An empty table with the updated settings.
+   */
   def withPrefix(prefix: String): TableFormatter = {
     new TableFormatter(headers, separator, prefix, suffix, stripTrailingNewline)
   }
 
+  /**
+   * Creates a new `TableFormatter`, copying the settings from this and with the supplied suffix.
+   *
+   * The rows in this table will ''not'' be copied to the new table.
+   *
+   * @param suffix suffix to use after last column.
+   * @return An empty table with the updated settings.
+   */
   def withSuffix(suffix: String): TableFormatter = {
     new TableFormatter(headers, separator, prefix, suffix, stripTrailingNewline)
   }
 
+  /**
+   * Creates a new `TableFormatter`, copying the settings from this and with `stripTrailingNewline` enabled.
+   *
+   * The rows in this table will ''not'' be copied to the new table.
+   *
+   * @return An empty table with the updated settings.
+   */
   def withStripTrailingNewline: TableFormatter = {
     new TableFormatter(headers, separator, prefix, suffix, true)
   }
 
+  /**
+   * Current contents of this table.
+   */
   def rows: Seq[Seq[String]] = this.contents.toSeq
 
+  /** Add a row to this table. */
   def addRow(columns: String*): TableFormatter = +=(columns)
 
+  /** Add a row to this table. */
   def +=(columns: Seq[String]): TableFormatter = {
     // TODO validate column count?
     contents += columns
     this
   }
 
+  /**
+   * Prints this table to stdout.
+   */
   def print(): Unit = print(Console.out)
+
+  /**
+   * Prints this table to the specified stream.
+   * @param out stream to print to.
+   */
   def print(out: PrintStream): Unit = {
     out.print(toString)
   }
 
+  /**
+   * Formats the contents of this table and returns them as a string.
+   */
   override def toString: String = {
     val res = if (headers.isEmpty && rows.isEmpty) {
       "\n"
@@ -134,6 +225,14 @@ class TableFormatter(
 }
 
 object TableFormatter {
+  /**
+   * Creates `TableFormatter` with the specified headers.
+   *
+   * If headers are specified then the prefix, separator and suffix will be set to `"| "`, `" | "` and `" |"`
+   * respectively. If no headers are specified then the defaults will be used.
+   *
+   * @param headers column header names.
+   */
   def apply(headers: String*): TableFormatter = {
     if (headers.isEmpty) {
       new TableFormatter(None)

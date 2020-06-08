@@ -1,0 +1,28 @@
+language: scala
+sudo: false
+dist: bionic
+
+jdk:
+  - openjdk8
+  - openjdk11
+
+cache:
+  directories:
+    - $HOME/.cache
+    - $HOME/.sbt
+
+before_cache:
+  - find $HOME/.sbt -name "*.lock" -delete
+
+# build with scoverage report and upload to codecov
+
+jobs:
+  include:
+    # run tests against all Scala versions & JDKs
+    - stage: Test
+      script: sbt +test
+    # run coverage only on 2.13
+    - stage: Coverage
+      jdk: openjdk11
+      script: sbt ++2.13.2 coverage test coverageReport && bash <(curl -s https://codecov.io/bash)
+

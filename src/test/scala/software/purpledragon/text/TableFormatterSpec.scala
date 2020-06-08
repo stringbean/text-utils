@@ -120,13 +120,12 @@ class TableFormatterSpec extends AnyFlatSpec with Matchers {
   }
 
   it should "strip trailing newline for empty table" in {
-    val formatter= TableFormatter().withStripTrailingNewline
+    val formatter = TableFormatter().withStripTrailingNewline
     formatter.toString shouldBe ""
   }
 
   it should "strip trailing newline for non-empty table" in {
-    val formatter = TableFormatter("header-1", "header-2", "header-3")
-      .withStripTrailingNewline
+    val formatter = TableFormatter("header-1", "header-2", "header-3").withStripTrailingNewline
       .addRow("col-1", "col-2", "col-3")
       .addRow("row-2-col-1", "row-2-col-2", "row-2-col-3")
 
@@ -147,7 +146,7 @@ class TableFormatterSpec extends AnyFlatSpec with Matchers {
 
     formatter.print(out)
 
-    boas.toString(StandardCharsets.UTF_8) shouldBe
+    boas.toString(StandardCharsets.UTF_8.name()) shouldBe
       """|| header-1    | header-2    | header-3    |
          |-------------------------------------------
          || col-1       | col-2       | col-3       |
@@ -167,7 +166,7 @@ class TableFormatterSpec extends AnyFlatSpec with Matchers {
       formatter.print()
     }
 
-    boas.toString(StandardCharsets.UTF_8) shouldBe
+    boas.toString(StandardCharsets.UTF_8.name()) shouldBe
       """|| header-1    | header-2    | header-3    |
          |-------------------------------------------
          || col-1       | col-2       | col-3       |
