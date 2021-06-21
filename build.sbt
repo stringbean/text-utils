@@ -54,8 +54,8 @@ autoAPIMappings := true
 git.remoteRepo := scmInfo.value.get.connection.replace("scm:git:", "")
 ghpagesNoJekyll := true
 
-siteSubdirName in SiteScaladoc := "api"
-addMappingsToSiteDir(mappings in (SiteScaladoc, packageDoc), siteSubdirName in SiteScaladoc)
-paradoxProperties in Compile ++= Map(
+SiteScaladoc / siteSubdirName := "api"
+addMappingsToSiteDir(SiteScaladoc / packageDoc /  mappings, SiteScaladoc / siteSubdirName)
+Compile / paradoxProperties ++= Map(
   "scaladoc.base_url" -> ".../api"
 )
