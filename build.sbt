@@ -20,7 +20,8 @@ organizationHomepage := Some(url("https://purpledragon.software"))
 homepage := Some(url("https://github.com/stringbean/text-utils"))
 scmInfo := Some(
   ScmInfo(url("https://github.com/stringbean/text-utils"), "scm:git:git@github.com:stringbean/text-utils.git"))
-bintrayPackageLabels := Seq("scala", "text")
+publishTo := sonatypePublishToBundle.value
+versionScheme := Some("semver-spec")
 
 import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 
@@ -40,6 +41,7 @@ releaseProcess := Seq[ReleaseStep](
   commitReleaseVersion,
   tagRelease,
   publishArtifacts,
+  releaseStepTask(sonatypeBundleRelease),
   releaseStepTask(ghpagesPushSite),
   setNextVersion,
   commitNextVersion,
