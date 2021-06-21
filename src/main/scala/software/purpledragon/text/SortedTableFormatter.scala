@@ -17,14 +17,14 @@
 package software.purpledragon.text
 
 /**
-  * Extension of [[TableFormatter]] that sorts the rows by a column before outputting.
-  *
+ * Extension of [[TableFormatter]] that sorts the rows by a column before outputting.
+ *
  * @param headers optional column headers.
-  * @param separator separator to use between columns.
-  * @param prefix prefix to use before first column.
-  * @param suffix suffix to use after last column.
-  * @param sortColumnIndex index of the column (zero-based) to sort by.
-  */
+ * @param separator separator to use between columns.
+ * @param prefix prefix to use before first column.
+ * @param suffix suffix to use after last column.
+ * @param sortColumnIndex index of the column (zero-based) to sort by.
+ */
 class SortedTableFormatter(
     headers: Option[Seq[String]],
     separator: String = "  ",
@@ -35,13 +35,13 @@ class SortedTableFormatter(
     extends TableFormatter(headers, separator, prefix, suffix, stripTrailingNewline) {
 
   /**
-    * Creates a new `SortedTableFormatter`, copying the settings from this and with the supplied sort column index.
-    *
+   * Creates a new `SortedTableFormatter`, copying the settings from this and with the supplied sort column index.
+   *
    * The rows in this table will ''not'' be copied to the new table.
-    *
+   *
    * @param sortColumnIndex index of the column (zero-based) to sort by.
-    * @return An empty table with the updated settings.
-    */
+   * @return An empty table with the updated settings.
+   */
   def withSortColumnIndex(sortColumnIndex: Int): SortedTableFormatter = {
     new SortedTableFormatter(headers, separator, prefix, suffix, stripTrailingNewline, sortColumnIndex)
   }
@@ -62,15 +62,15 @@ class SortedTableFormatter(
 object SortedTableFormatter {
 
   /**
-    * Creates `SortedTableFormatter` with the specified headers.
-    *
+   * Creates `SortedTableFormatter` with the specified headers.
+   *
    * If headers are specified then the prefix, separator and suffix will be set to `"| "`, `" | "` and `" |"`
-    * respectively. If no headers are specified then the defaults will be used.
-    *
+   * respectively. If no headers are specified then the defaults will be used.
+   *
    * The table will be sorted by the first column.
-    *
+   *
    * @param headers column header names.
-    */
+   */
   def apply(headers: String*): SortedTableFormatter = {
     if (headers.isEmpty) {
       new SortedTableFormatter(None)
