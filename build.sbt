@@ -46,7 +46,7 @@ releaseProcess := Seq[ReleaseStep](
   commitReleaseVersion,
   tagRelease,
   publishArtifacts,
-  releaseStepTask(sonatypeBundleRelease),
+  releaseStepCommand("sonatypeBundleRelease"),
   releaseStepTask(ghpagesPushSite),
   setNextVersion,
   commitNextVersion,
