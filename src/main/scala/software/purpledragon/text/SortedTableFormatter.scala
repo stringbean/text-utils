@@ -39,23 +39,23 @@ class SortedTableFormatter(
    *
    * The rows in this table will ''not'' be copied to the new table.
    *
-   * @param sortColumnIndex index of the column (zero-based) to sort by.
+   * @param newSortColumnIndex index of the column (zero-based) to sort by.
    * @return An empty table with the updated settings.
    */
-  def withSortColumnIndex(sortColumnIndex: Int): SortedTableFormatter = {
-    new SortedTableFormatter(headers, separator, prefix, suffix, stripTrailingNewline, sortColumnIndex)
+  def withSortColumnIndex(newSortColumnIndex: Int): SortedTableFormatter = {
+    new SortedTableFormatter(headers, separator, prefix, suffix, stripTrailingNewline, newSortColumnIndex)
   }
 
+  @SuppressWarnings(Array("UnnecessaryConversion"))
   override def rows: Seq[Seq[String]] = {
-    contents.toList match {
-      case first :: _ if sortColumnIndex >= first.size =>
+    contents.headOption foreach { first =>
+      if (sortColumnIndex >= first.size) {
         throw new IllegalArgumentException(
-          s"Sort index ($sortColumnIndex) is greater than last column (${first.size - 1}"
-        )
-
-      case r =>
-        r.sortBy(row => row(sortColumnIndex))
+          s"Sort index ($sortColumnIndex) is greater than last column (${first.size - 1}")
+      }
     }
+
+    contents.sortBy(row => row.toIndexedSeq(sortColumnIndex)).toSeq
   }
 }
 

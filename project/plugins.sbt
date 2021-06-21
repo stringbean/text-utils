@@ -8,6 +8,7 @@ addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.6.0")
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.8.2")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.9.2")
+addSbtPlugin("com.sksamuel.scapegoat" %% "sbt-scapegoat" % "1.1.0")
 
 // documentation
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.3")

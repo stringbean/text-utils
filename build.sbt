@@ -8,6 +8,8 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.9" % Test
 )
 
+ThisBuild / scapegoatVersion  := "1.4.9"
+
 organizationName := "Michael Stringer"
 startYear := Some(2020)
 licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
@@ -37,6 +39,9 @@ releaseProcess := Seq[ReleaseStep](
   releaseStepTask(Test / headerCheck),
   releaseStepTask(Compile / scalafmtCheck),
   releaseStepTask(Test / scalafmtCheck),
+  releaseStepTask(Compile / scapegoat),
+  releaseStepTask(Test / scapegoat),
+  releaseStepTask(mimaFindBinaryIssues),
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,

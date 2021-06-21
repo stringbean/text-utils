@@ -17,7 +17,6 @@
 package software.purpledragon.text
 
 import java.io.PrintStream
-
 import scala.collection.mutable
 
 /**
@@ -78,11 +77,11 @@ class TableFormatter(
    *
    * The rows in this table will ''not'' be copied to the new table.
    *
-   * @param separator separator to use between columns.
+   * @param newSeparator separator to use between columns.
    * @return An empty table with the updated settings.
    */
-  def withSeparator(separator: String): TableFormatter = {
-    new TableFormatter(headers, separator, prefix, suffix, stripTrailingNewline)
+  def withSeparator(newSeparator: String): TableFormatter = {
+    new TableFormatter(headers, newSeparator, prefix, suffix, stripTrailingNewline)
   }
 
   /**
@@ -90,11 +89,11 @@ class TableFormatter(
    *
    * The rows in this table will ''not'' be copied to the new table.
    *
-   * @param prefix prefix to use before first column.
+   * @param newPrefix prefix to use before first column.
    * @return An empty table with the updated settings.
    */
-  def withPrefix(prefix: String): TableFormatter = {
-    new TableFormatter(headers, separator, prefix, suffix, stripTrailingNewline)
+  def withPrefix(newPrefix: String): TableFormatter = {
+    new TableFormatter(headers, separator, newPrefix, suffix, stripTrailingNewline)
   }
 
   /**
@@ -102,11 +101,11 @@ class TableFormatter(
    *
    * The rows in this table will ''not'' be copied to the new table.
    *
-   * @param suffix suffix to use after last column.
+   * @param newSuffix suffix to use after last column.
    * @return An empty table with the updated settings.
    */
-  def withSuffix(suffix: String): TableFormatter = {
-    new TableFormatter(headers, separator, prefix, suffix, stripTrailingNewline)
+  def withSuffix(newSuffix: String): TableFormatter = {
+    new TableFormatter(headers, separator, prefix, newSuffix, stripTrailingNewline)
   }
 
   /**
@@ -123,6 +122,7 @@ class TableFormatter(
   /**
    * Current contents of this table.
    */
+  @SuppressWarnings(Array("UnnecessaryConversion"))
   def rows: Seq[Seq[String]] = this.contents.toSeq
 
   /** Add a row to this table. */
@@ -157,7 +157,7 @@ class TableFormatter(
     } else {
       val sb = new mutable.StringBuilder()
 
-      val widths = columnWidths
+      val widths = columnWidths.toIndexedSeq
 
       def appendRow(row: Seq[String]): Unit = {
         row.zipWithIndex foreach { case (text, i) =>
@@ -209,7 +209,7 @@ class TableFormatter(
 
   private def columnWidths: Seq[Int] = {
     val everything: Seq[Seq[String]] = headers.getOrElse(Nil) +: rows
-    everything.foldLeft(Seq.empty[Int]) { (acc, row) =>
+    everything.foldLeft(IndexedSeq.empty[Int]) { (acc, row) =>
       row.zipWithIndex.foldLeft(acc) { case (rowAcc, (col, colIndex)) =>
         if (rowAcc.size < colIndex + 1) {
           rowAcc :+ col.length
