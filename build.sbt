@@ -1,12 +1,14 @@
 name := "text-utils"
 organization := "software.purpledragon"
 
-scalaVersion := "2.13.2"
-crossScalaVersions := Seq("2.11.12", "2.12.11", scalaVersion.value)
+scalaVersion := "2.13.6"
+crossScalaVersions := Seq("2.11.12", "2.12.14", scalaVersion.value)
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.1.2" % Test
+  "org.scalatest" %% "scalatest" % "3.2.9" % Test
 )
+
+ThisBuild / scapegoatVersion  := "1.4.9"
 
 organizationName := "Michael Stringer"
 startYear := Some(2020)
@@ -20,7 +22,8 @@ organizationHomepage := Some(url("https://purpledragon.software"))
 homepage := Some(url("https://github.com/stringbean/text-utils"))
 scmInfo := Some(
   ScmInfo(url("https://github.com/stringbean/text-utils"), "scm:git:git@github.com:stringbean/text-utils.git"))
-bintrayPackageLabels := Seq("scala", "text")
+publishTo := sonatypePublishToBundle.value
+versionScheme := Some("semver-spec")
 
 import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 
@@ -36,15 +39,21 @@ releaseProcess := Seq[ReleaseStep](
   releaseStepTask(Test / headerCheck),
   releaseStepTask(Compile / scalafmtCheck),
   releaseStepTask(Test / scalafmtCheck),
+  releaseStepTask(Compile / scapegoat),
+  releaseStepTask(Test / scapegoat),
+  releaseStepTask(mimaFindBinaryIssues),
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
   publishArtifacts,
+  releaseStepTask(sonatypeBundleRelease),
   releaseStepTask(ghpagesPushSite),
   setNextVersion,
   commitNextVersion,
   pushChanges
 )
+
+mimaPreviousArtifacts := Set("software.purpledragon" %% "text-utils" % "1.3.0")
 
 // documentation settings
 enablePlugins(SiteScaladocPlugin, GhpagesPlugin, ParadoxSitePlugin)
@@ -54,8 +63,8 @@ autoAPIMappings := true
 git.remoteRepo := scmInfo.value.get.connection.replace("scm:git:", "")
 ghpagesNoJekyll := true
 
-siteSubdirName in SiteScaladoc := "api"
-addMappingsToSiteDir(mappings in (SiteScaladoc, packageDoc), siteSubdirName in SiteScaladoc)
-paradoxProperties in Compile ++= Map(
+SiteScaladoc / siteSubdirName := "api"
+addMappingsToSiteDir(SiteScaladoc / packageDoc /  mappings, SiteScaladoc / siteSubdirName)
+Compile / paradoxProperties ++= Map(
   "scaladoc.base_url" -> ".../api"
 )
