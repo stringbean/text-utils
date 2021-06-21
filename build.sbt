@@ -48,6 +48,8 @@ releaseProcess := Seq[ReleaseStep](
   pushChanges
 )
 
+mimaPreviousArtifacts := Set("software.purpledragon" %% "text-utils" % "1.3.0")
+
 // documentation settings
 enablePlugins(SiteScaladocPlugin, GhpagesPlugin, ParadoxSitePlugin)
 
