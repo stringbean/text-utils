@@ -2,13 +2,11 @@ name := "text-utils"
 organization := "software.purpledragon"
 
 scalaVersion := "2.13.14"
-crossScalaVersions := Seq("2.12.19", scalaVersion.value)
+crossScalaVersions := Seq("2.12.19", scalaVersion.value, "3.4.2")
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.19" % Test
 )
-
-ThisBuild / scapegoatVersion := "2.1.6"
 
 organizationName := "Michael Stringer"
 startYear := Some(2020)
@@ -39,8 +37,6 @@ releaseProcess := Seq[ReleaseStep](
   releaseStepTask(Test / headerCheck),
   releaseStepTask(Compile / scalafmtCheck),
   releaseStepTask(Test / scalafmtCheck),
-  releaseStepTask(Compile / scapegoat),
-  releaseStepTask(Test / scapegoat),
   releaseStepTask(mimaFindBinaryIssues),
   setReleaseVersion,
   commitReleaseVersion,

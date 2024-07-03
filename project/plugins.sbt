@@ -5,7 +5,6 @@ addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.11.0")
 
 // code style
 addSbtPlugin("de.heikoseeberger"       % "sbt-header"      % "5.10.0")
-addSbtPlugin("com.sksamuel.scapegoat" %% "sbt-scapegoat"   % "1.2.4")
 addSbtPlugin("org.scalameta"           % "sbt-scalafmt"    % "2.5.2")
 addSbtPlugin("org.scoverage"           % "sbt-scoverage"   % "2.1.0")
 addSbtPlugin("com.typesafe"            % "sbt-mima-plugin" % "1.1.3")
