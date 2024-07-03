@@ -21,6 +21,4 @@ jobs:
           java-version: ${{matrix.java}}
           distribution: corretto
       - name: Run tests
-        uses: lokkju/github-action-sbt@master
-        with:
-          commands: test headerCheck scapegoat mimaFindBinaryIssues
+        run: sbt test scalafmtCheck headerCheck mimaFindBinaryIssues
