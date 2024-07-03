@@ -1,18 +1,18 @@
 name := "text-utils"
 organization := "software.purpledragon"
 
-scalaVersion := "2.13.6"
-crossScalaVersions := Seq("2.11.12", "2.12.14", scalaVersion.value)
+scalaVersion := "2.13.14"
+crossScalaVersions := Seq("2.12.19", scalaVersion.value)
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.2.9" % Test
+  "org.scalatest" %% "scalatest" % "3.2.19" % Test
 )
 
-ThisBuild / scapegoatVersion := "1.4.9"
+ThisBuild / scapegoatVersion := "2.1.6"
 
 organizationName := "Michael Stringer"
 startYear := Some(2020)
-licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
+licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.txt"))
 
 developers := List(
   Developer("stringbean", "Michael Stringer", "@the_stringbean", url("https://github.com/stringbean"))
@@ -25,7 +25,7 @@ scmInfo := Some(
 publishTo := sonatypePublishToBundle.value
 versionScheme := Some("semver-spec")
 
-import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
+import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations.*
 
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 releaseCrossBuild := true
