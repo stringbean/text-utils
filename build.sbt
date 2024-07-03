@@ -8,7 +8,7 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.9" % Test
 )
 
-ThisBuild / scapegoatVersion  := "1.4.9"
+ThisBuild / scapegoatVersion := "1.4.9"
 
 organizationName := "Michael Stringer"
 startYear := Some(2020)
@@ -64,7 +64,7 @@ git.remoteRepo := scmInfo.value.get.connection.replace("scm:git:", "")
 ghpagesNoJekyll := true
 
 SiteScaladoc / siteSubdirName := "api"
-addMappingsToSiteDir(SiteScaladoc / packageDoc /  mappings, SiteScaladoc / siteSubdirName)
+addMappingsToSiteDir(SiteScaladoc / packageDoc / mappings, SiteScaladoc / siteSubdirName)
 Compile / paradoxProperties ++= Map(
   "scaladoc.base_url" -> ".../api"
 )
